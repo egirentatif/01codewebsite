@@ -56,7 +56,7 @@ export const config = {
     /*
      * Match all request paths except for the ones starting with:
      */
-    "/((?!api|_next/static|_next/image|favicon.ico|three.min.js|vanta.fog.min.js|manifest.json).*)",
+    "/((?!api|_next/static|_next/image|_next/data|favicon.ico|manifest.json|.*\.(js|css|png|jpg|jpeg|gif|webp|svg|woff|woff2|eot|ttf|otf|webm)$).*)",
     "/",
   ],
 }

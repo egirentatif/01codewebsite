@@ -19,48 +19,71 @@ const VantaBackground = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Tambahkan script Three.js dengan pengaturan yang lebih stabil
+    // Check if scripts are already loaded
+    if (window.THREE && window.VANTA) {
+      if (containerRef.current) {
+        window.VANTA.FOG({
+          el: containerRef.current,
+          THREE: window.THREE,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200,
+          minWidth: 200,
+          highlightColor: 0x8c7947,
+          midtoneColor: 0x1a39d9,
+          baseColor: 0x8038d9
+        } as VantaOptions);
+      }
+      return;
+    }
+
+    // Tambahkan script Three.js
     const threeScript = document.createElement('script');
     threeScript.src = process.env.NEXT_PUBLIC_THREEJS_URL || 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
     threeScript.crossOrigin = 'anonymous';
     threeScript.async = false;
     threeScript.defer = true;
+    threeScript.id = 'three-script';
+    
+    // Tambahkan script Vanta
+    const vantaScript = document.createElement('script');
+    vantaScript.src = process.env.NEXT_PUBLIC_VANTA_URL || 'https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.fog.min.js';
+    vantaScript.crossOrigin = 'anonymous';
+    vantaScript.async = false;
+    vantaScript.defer = true;
+    vantaScript.id = 'vanta-script';
+
+    // Load scripts secara berurutan
     threeScript.onload = () => {
-      // Setelah Three.js dimuat, tambahkan script Vanta
-      const vantaScript = document.createElement('script');
-      vantaScript.src = process.env.NEXT_PUBLIC_VANTA_URL || 'https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.fog.min.js';
-      vantaScript.crossOrigin = 'anonymous';
-      vantaScript.async = false;
-      vantaScript.defer = true;
-      vantaScript.onload = () => {
-        if (containerRef.current) {
-          // Inisialisasi Vanta dengan konfigurasi yang diinginkan
-          window.VANTA.FOG({
-            el: containerRef.current,
-            THREE: window.THREE,
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200,
-            minWidth: 200,
-            highlightColor: 0x8c7947,
-            midtoneColor: 0x1a39d9,
-            baseColor: 0x8038d9
-          } as VantaOptions);
-        }
-      };
       document.head.appendChild(vantaScript);
     };
+
+    vantaScript.onload = () => {
+      if (containerRef.current) {
+        window.VANTA.FOG({
+          el: containerRef.current,
+          THREE: window.THREE,
+          mouseControls: true,
+          touchControls: true,
+          gyroControls: false,
+          minHeight: 200,
+          minWidth: 200,
+          highlightColor: 0x8c7947,
+          midtoneColor: 0x1a39d9,
+          baseColor: 0x8038d9
+        } as VantaOptions);
+      }
+    };
+
     document.head.appendChild(threeScript);
 
     return () => {
       // Cleanup script yang ditambahkan
-      const scripts = document.querySelectorAll('script');
-      scripts.forEach((script: HTMLScriptElement) => {
-        if (script.src.includes('three.min.js') || script.src.includes('vanta.fog.min.js')) {
-          script.remove();
-        }
-      });
+      const threeScript = document.getElementById('three-script');
+      const vantaScript = document.getElementById('vanta-script');
+      if (threeScript) threeScript.remove();
+      if (vantaScript) vantaScript.remove();
     };
   }, []);
 
