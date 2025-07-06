@@ -1,5 +1,5 @@
 import type React from "react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/contexts/language-context";
@@ -8,26 +8,37 @@ import VantaBackground from "@/components/VantaBackground";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  colorScheme: 'light',
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#1a1a1a' },
+  ],
+}
+
 export const metadata: Metadata = {
   title: "01Code - AI-Driven Business Solutions",
   description: "Transform your business with AI-powered chatbot and deepfake detection solutions from 01Code.",
   keywords: ["AI business solutions", "conversational AI", "deepfake detection", "01Bot", "01Shield", "business automation", "AI chatbot", "deepfake protection", "AI assistant",],
-  authors: [{ name: "01Code Team" }],
-  creator: "01Code Team",
-  publisher: "01Code",
-  viewport: "width=device-width, initial-scale=1",
+  authors: [{ name: "01Bot Team" }],
+  creator: "01Bot Team",
+  publisher: "01Bot",
   robots: "index, follow",
   openGraph: {
-    title: "01Code - AI-Driven Business Solutions",
-    description: "Transform your customer experience with AI-powered chatbot and automation solutions.",
-    url: "https://01code.pw",
+    title: "01Code - AI-Driven Business Solutions Made Simple",
+    description: "AI-driven business solutions made simple and accessible for everyone. Discover 01Bot and 01Shield.",
+    url: "https://01code.com",
     siteName: "01Code",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "01COde - AI-Driven Business Solutions",
+        alt: "01Code Homepage - AI Solutions",
       },
     ],
     locale: "en_US",

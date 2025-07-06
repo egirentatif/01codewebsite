@@ -13,6 +13,13 @@ const nextConfig = {
   // Headers for caching
   async headers() {
     return [
+      // Manifest caching (1 year)
+      {
+        source: '/manifest.json',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
+        ],
+      },
       // Static assets caching (30 days)
       {
         source: '/favicon.ico',

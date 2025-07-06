@@ -19,15 +19,19 @@ const VantaBackground = () => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Tambahkan script Three.js
+    // Tambahkan script Three.js dengan pengaturan yang lebih stabil
     const threeScript = document.createElement('script');
-    threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-    threeScript.async = true;
+    threeScript.src = process.env.NEXT_PUBLIC_THREEJS_URL || 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+    threeScript.crossOrigin = 'anonymous';
+    threeScript.async = false;
+    threeScript.defer = true;
     threeScript.onload = () => {
       // Setelah Three.js dimuat, tambahkan script Vanta
       const vantaScript = document.createElement('script');
-      vantaScript.src = 'https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.fog.min.js';
-      vantaScript.async = true;
+      vantaScript.src = process.env.NEXT_PUBLIC_VANTA_URL || 'https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.fog.min.js';
+      vantaScript.crossOrigin = 'anonymous';
+      vantaScript.async = false;
+      vantaScript.defer = true;
       vantaScript.onload = () => {
         if (containerRef.current) {
           // Inisialisasi Vanta dengan konfigurasi yang diinginkan
@@ -45,9 +49,9 @@ const VantaBackground = () => {
           } as VantaOptions);
         }
       };
-      document.body.appendChild(vantaScript);
+      document.head.appendChild(vantaScript);
     };
-    document.body.appendChild(threeScript);
+    document.head.appendChild(threeScript);
 
     return () => {
       // Cleanup script yang ditambahkan
