@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -19,17 +23,40 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"],
-      "types/*": ["./types/*"],
-      "vanta/*": ["./vanta/*"],
-      "three/*": ["./three/*"]
+      "@/*": [
+        "./*"
+      ],
+      "types/*": [
+        "./types/*"
+      ],
+      "vanta/*": [
+        "./vanta/*"
+      ],
+      "three/*": [
+        "./three/*"
+      ]
     },
     "typeRoots": [
       "./node_modules/@types",
       "./types"
     ],
-    "types": ["vanta", "three", "node"]
+    "types": [
+      "vanta",
+      "three",
+      "node"
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "types/**/*.ts", "vanta/**/*.ts", "three/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "next-env.d.ts",
+    "three/**/*.ts",
+    "types/**/*.ts",
+    "vanta/**/*.ts",
+    "dist/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
