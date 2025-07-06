@@ -5,6 +5,7 @@ import "./globals.css";
 import { LanguageProvider } from "@/contexts/language-context";
 import ChatbotPopup from "@/components/ChatbotPopup";
 import VantaBackground from "@/components/VantaBackground";
+import AnimasiLogo from "@/components/AnimasiLogo";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -57,7 +58,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
@@ -69,6 +69,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={`relative min-h-screen ${inter.className}`}>
         <VantaBackground />
+        <AnimasiLogo />
         <LanguageProvider>
           <div className="relative z-10">
             {children}
