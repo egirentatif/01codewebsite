@@ -3,13 +3,12 @@
   "builds": [
     {
       "src": "next.config.mjs",
-      "use": "@vercel/next"
+      "use": "@vercel/next",
+      "config": {
+        "distDir": "dist"
+      }
     }
   ],
-  "env": {
-    "NEXT_PUBLIC_THREEJS_URL": "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js",
-    "NEXT_PUBLIC_VANTA_URL": "https://cdn.jsdelivr.net/npm/vanta@0.5.24/dist/vanta.fog.min.js"
-  },
   "routes": [
     {
       "src": "/manifest.json",
