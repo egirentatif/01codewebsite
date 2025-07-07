@@ -1,14 +1,21 @@
-import { streamText } from "ai"
-import { openai } from "@ai-sdk/openai"
+import { streamText } from "ai";
+import { openai } from "@ai-sdk/openai";
+import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const { messages } = await req.json()
+  try {
+    const { messages } = await req.json();
 
-  // Get the latest user message
-  const userMessage = messages[messages.length - 1]?.content || ""
+    if (!Array.isArray(messages) || messages.length === 0) {
+      return NextResponse.json(
+        { error: "Invalid request. Messages array is required." },
+        { status: 400 }
+      );
+    }
 
-  // Create system prompt for 01Code assistant
-  const systemPrompt = `You are the 01Code AI Assistant, a helpful and knowledgeable chatbot for 01Code company. 
+    const userMessage = messages[messages.length - 1]?.content || "";
+
+    const systemPrompt = `You are the 01Code AI Assistant, a helpful and knowledgeable chatbot for 01Code company.
 
 01Code is a leading provider of AI-driven business solutions with two main products:
 
@@ -38,9 +45,8 @@ Guidelines:
 - Use a conversational tone
 - If you don't know something specific, direct them to contact the team
 
-Always end responses with a helpful follow-up question or suggestion.`
+Always end responses with a helpful follow-up question or suggestion.`;
 
-  try {
     const result = await streamText({
       model: openai("gpt-4o-mini"),
       system: systemPrompt,
@@ -50,22 +56,18 @@ Always end responses with a helpful follow-up question or suggestion.`
       })),
       temperature: 0.7,
       maxTokens: 300,
-    })
+    });
 
-    return result.toDataStreamResponse()
+    return result.toDataStreamResponse();
   } catch (error) {
-    console.error("Chat API Error:", error)
+    console.error("Chat API Error:", error);
 
-    // Fallback response if AI service fails
-    return new Response(
-      JSON.stringify({
+    return NextResponse.json(
+      {
         error:
           "Sorry, I'm having trouble connecting right now. Please try again or contact us directly at admin@01code.com",
-      }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
       },
-    )
+      { status: 500 }
+    );
   }
 }
